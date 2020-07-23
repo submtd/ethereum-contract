@@ -1,0 +1,16 @@
+{
+    "name": "submtd/ethereum-contract",
+    "description": "Ethereum contract parser for PHP",
+    "authors": [
+        {
+            "name": "Steve Harmeyer",
+            "email": "harmeyersteve@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Submtd\\EthereumContract\\": "src/"
+        }
+    }
+}
