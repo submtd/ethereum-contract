@@ -114,4 +114,15 @@ class Contract
     {
         return $this->getFunction($function)->encode($arguments);
     }
+
+    /**
+     * Decode request.
+     * @param string $function
+     * @param string $value
+     * @return mixed
+     */
+    public function decode(string $function, string $value)
+    {
+        return $this->getFunction($function)->decode($value);
+    }
 }

@@ -106,4 +106,36 @@ class ContractFunction
 
         return '0x'.substr($encodedCall, 0, 8).$encoded;
     }
+
+    /**
+     * Decode request.
+     * @param string $value
+     * @return mixed
+     */
+    public function decode(string $value)
+    {
+        if (substr($value, 0, 2) === '0x') {
+            $value = substr($value, 2);
+        }
+        $responseCount = count($this->outputs);
+        if ($responseCount <= 0) {
+            return [];
+        } elseif ($responseCount === 1) {
+            $chunks = [$value];
+        } else {
+            $chunks = str_split($value, 64);
+        }
+        $result = [];
+        for ($i = 0; $i < $responseCount; $i++) {
+            $type = $this->outputs[$i];
+            $decoded = $type->decode($chunks[$i]);
+            if ($type->name) {
+                $result[$type->name] = $decoded;
+            } else {
+                $result[$i] = $decoded;
+            }
+        }
+
+        return $result;
+    }
 }
