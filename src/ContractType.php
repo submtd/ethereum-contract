@@ -168,11 +168,23 @@ class ContractType
      */
     private function hexToString($value) : string
     {
-        $string = '';
-        for ($i = 0; $i < strlen($value) - 1; $i += 2) {
-            $string .= chr(hexdec($value[$i].$value[$i + 1]));
+        //$string = '';
+        //for ($i = 0; $i < strlen($value) - 1; $i += 2) {
+        //$string .= chr(hexdec($value[$i].$value[$i + 1]));
+        //}
+        //return $string;
+        $strLen = mb_substr($value, 0, 64);
+        $strValue = mb_substr($value, 64);
+        $match = [];
+        if (preg_match('/^[0]+([a-f0-9]+)$/', $strLen, $match) === 1) {
+            $strLen = $match[1];
+        }
+        $strValue = mb_substr($strValue, 0, (int) $strLen * 2);
+        if (strpos($strValue, '0x') === 0) {
+            $count = 1;
+            $strValue = str_replace('0x', '', $strValue, $count);
         }
 
-        return $string;
+        return pack('H*', $strValue);
     }
 }
